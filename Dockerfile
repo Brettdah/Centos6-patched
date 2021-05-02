@@ -58,9 +58,8 @@ COPY --from=centos-with-vsyscall /rpms/x86_64/glibc-2.12-1.212.1.el6.x86_64.rpm 
 COPY --from=centos-with-vsyscall /rpms/x86_64/glibc-common-2.12-1.212.1.el6.x86_64.rpm /rpms
 RUN yum localinstall -y /rpms/* \ 
 	&& rm -rf /rpms
+	&& yum clean all
 
 # TO Debug
 CMD ["/bin/bash"]
-
-
 #CMD ["/sbin/init"]
