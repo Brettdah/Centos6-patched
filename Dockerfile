@@ -56,8 +56,8 @@ RUN curl https://vault.centos.org/RPM-GPG-KEY-CentOS-6 --output /root/RPM-GPG-KE
 
 COPY --from=centos-with-vsyscall /rpms/x86_64/glibc-2.12-1.212.1.el6.x86_64.rpm /rpms 
 COPY --from=centos-with-vsyscall /rpms/x86_64/glibc-common-2.12-1.212.1.el6.x86_64.rpm /rpms
-RUN yum localinstall -y /rpms/* \ 
-	&& rm -rf /rpms
+RUN yum localinstall -y /rpms/* \
+	&& rm -rf /rpms \
 	&& yum clean all
 
 # TO Debug
