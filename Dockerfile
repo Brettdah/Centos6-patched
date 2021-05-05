@@ -35,9 +35,10 @@ RUN myversion=$(cat /etc/redhat-release | awk '{print $3}') \
         && sed -i '/mirrorlist/d;s,#baseurl=http://mirror,baseurl=http://vault,g;s,/centos/,/,g;s/$releasever/'${myversion}'/g' /etc/yum.repos.d/*.repo \
         && curl https://vault.centos.org/RPM-GPG-KEY-CentOS-6 --output /root/RPM-GPG-KEY-CentOS-6 \
         && gpg --quiet --with-fingerprint /root/RPM-GPG-KEY-CentOS-6 \
-        && rm -rf /root/RPM-GPG-KEY-CentOS-6
+        && rm -rf /root/RPM-GPG-KEY-CentOS-6 \
+	&& mkdir /rpms
 
-COPY --from=centos-with-vsyscall /rpms/x86_64/glibc-2.12-1.212.1.el6.x86_64.rpm /rpms 
+COPY --from=centos-with-vsyscall /rpms/x86_64/glibc-2.12-1.212.1.el6.x86_64.rpm /rpms
 COPY --from=centos-with-vsyscall /rpms/x86_64/glibc-common-2.12-1.212.1.el6.x86_64.rpm /rpms
 RUN yum localinstall -y /rpms/* \
 	&& rm -rf /rpms \
