@@ -17,8 +17,7 @@ RUN myversion=$(cat /etc/redhat-release | awk '{print $3}') \
 	&& rpm -ivh /root/srpms/glibc-2.12-1.212.el6.src.rpm \
 	&& rpmbuild -bp /root/rpmbuild/SPECS/glibc.spec
 
-COPY ./files/glibc/glibc.spec.patch /root/rpmbuild/SPECS/
-COPY ./files/glibc/remove-vsyscall.patch /root/rpmbuild/SOURCES/
+COPY ./files/glibc/ /root/
 
 RUN cd /root/rpmbuild/SPECS/ && patch -p2 < glibc.spec.patch \
 	&& rpmbuild -ba /root/rpmbuild/SPECS/glibc.spec \
@@ -44,6 +43,4 @@ RUN yum localinstall -y /rpms/* \
 	&& rm -rf /rpms \
 	&& yum clean all
 
-# TO Debug
 CMD ["/bin/bash"]
-#CMD ["/sbin/init"]
